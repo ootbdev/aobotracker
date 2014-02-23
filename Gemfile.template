@@ -1,0 +1,45 @@
+source 'https://rubygems.org'
+
+gem 'rails', '4.0.0'
+gem 'sqlite3'
+gem 'therubyracer', platforms: :ruby
+gem 'jquery-rails'
+gem 'bootstrap-sass'
+gem 'factory_girl_rails'
+
+group :assets do
+  gem 'sass-rails'
+  gem 'coffee-rails', '~> 4.0.0'
+  gem 'uglifier'
+end
+
+group :development do
+  gem 'better_errors'
+end
+
+group :test do
+  gem 'capybara',             '>= 2.0.3'
+  gem 'launchy',              '>= 2.2.0'
+  gem 'cucumber-rails',       :require => false, github: 'cucumber/cucumber-rails'
+
+  # The main 'database_cleaner' has some issues playing nicely when using
+  # 'selenium-webdriver'.  For now, using a forked and fixed version of the
+  # gem.  See https://github.com/bmabey/database_cleaner/pull/209 for details.
+  # Will check periodically on when this fix gets pulled into master.
+  gem 'database_cleaner',     github: 'tommeier/database_cleaner', branch: 'fix-superclass'
+
+  gem 'shoulda-matchers'
+  gem 'selenium-webdriver'
+end
+
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'faker',                '1.2.0'
+  gem 'debugger'
+end
+
+# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+# gem 'turbolinks'
+
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jbuilder', '~> 1.2'
