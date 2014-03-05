@@ -6,5 +6,13 @@ FactoryGirl.define do
     lastname  { Faker::Name.last_name }
     email     { Faker::Internet.email }
     u_type 'employee'
+
+    trait :manager do
+      u_type 'manager'
+    end
+
+    trait :administrator do
+      u_type 'administrator'
+    end
   end
 end
