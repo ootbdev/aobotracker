@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20140306030211) do
     t.string   "u_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "password_digest"
   end
 
 end
