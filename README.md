@@ -14,8 +14,8 @@ Setup
 -----
 
 1. Make sure you have [installed RVM](http://rvm.io/rvm/install). 
-2. Clone this repository: `git clone git@github.com:ootbdev/aobotracker.git`
-3. When going to the project folder, accept the usage of `.rvmrc`, which will set the Ruby version to 2.0.0 (and will guide you to installing that version if you don't already have it).
+2. Clone this repository: `git clone git@github.com:ootbdev/aobotracker.git` (Remember to create a ssh key if missing, and upload to github through the web interface.)
+3. When going to the project folder, accept the usage of `.rvmrc`, which will set the Ruby version to 2.0.0 (and will guide you to installing that version if you don't already have it). (Make sure your terminal is set up to run as login shell.)
 4. Make a local copy of the Gemfile: `cp Gemfile.template Gemfile`
 5. `bundle install`
 6. Make a local copy of spec_helper: `cp spec/spec_helper.rb.template spec/spec_helper.rb`
