@@ -27,5 +27,7 @@ module Timetracker
 
     # Disable the asset pipeline.
     config.assets.enabled = false
+
+    config.i18n.enforce_available_locales = false
   end
 end
