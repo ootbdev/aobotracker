@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140305075306) do
+ActiveRecord::Schema.define(version: 20140306030211) do
 
   create_table "expense_types", force: true do |t|
     t.string   "name"
@@ -24,6 +24,19 @@ ActiveRecord::Schema.define(version: 20140305075306) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "tasks", force: true do |t|
+    t.integer  "task_type_id"
+    t.string   "description"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tasks", ["task_type_id"], name: "index_tasks_on_task_type_id"
+  add_index "tasks", ["user_id"], name: "index_tasks_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "firstname"
