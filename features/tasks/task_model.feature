@@ -33,7 +33,6 @@ Scenario Outline: All of the fields for a task must be non-empty
     | start date/time |
     | end date/time   |
 
-@wip
 Scenario: A task can not be assigned to an administrator
   When administrator 1 tries to create a task
   Then I should still have 0 tasks
@@ -76,3 +75,7 @@ Scenario Outline: A tasks end time has to be greater than it's start time
   | 2014-03-06 11:01 | 2014-03-06 11:00 | 0     |
   | 2014-03-05 11:00 | 2014-03-06 11:00 | 1     |
   | 2014-03-06 11:00 | 2014-03-05 11:00 | 0     |
+
+Scenario: What should happen to a task's task type if that task type is deleted?
+
+Scenario: What should happen to a task if the user it belongs to is deleted?
