@@ -85,4 +85,8 @@ Scenario: A task type of a task should not be able to be set to nil
   Given I have 1 task
   Then I should not be able to set the task type to nil
 
-Scenario: What should happen to a task if the user it belongs to is deleted?
+Scenario: A user that is deleted should delete all associated tasks.
+  Given employee 1 has 5 tasks
+  When I delete employee 1
+  Then I should have no tasks
+

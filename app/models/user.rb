@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-  has_many :tasks
+  has_secure_password
+  has_many :tasks, dependent: :destroy
 
   validates :firstname, :presence => true
   validates :lastname, :presence => true
