@@ -132,8 +132,31 @@ Then(/^(#{TASK}) should belong to (#{USER})$/) do |task, user|
   task.user_id.should == user.id
 end
 
+Given(/^I have a user$/) do
+  FactoryGirl.create(:user, u_type: "employee")
+end
+
 Then(/^(#{USER}) should have (#{NUMBER}) tasks?$/) do |user, count|
   user.tasks.count.should == count
+end
+
+Then(/^I should not be able to set the task type to nil$/) do
+  t = Task.first
+  t.task_type = nil
+  t.valid?.should be_false
+end
+
+When(/^I try to destroy the task type$/) do
+  t = Task.first
+  t.task_type.destroy
+end
+
+Then(/^that task type should still exist$/) do
+  TaskType.first.should_not be_nil
+end
+
+When(/^I delete (#{USER})$/) do |user|
+  user.destroy
 end
 
 def try_create_task(factory_params)

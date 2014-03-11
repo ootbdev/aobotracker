@@ -76,6 +76,13 @@ Scenario Outline: A tasks end time has to be greater than it's start time
   | 2014-03-05 11:00 | 2014-03-06 11:00 | 1     |
   | 2014-03-06 11:00 | 2014-03-05 11:00 | 0     |
 
-Scenario: What should happen to a task's task type if that task type is deleted?
+Scenario: A task type of a task should not be able to be destroyed
+  Given I have 1 task
+  When I try to destroy the task type
+  Then that task type should still exist
+
+Scenario: A task type of a task should not be able to be set to nil
+  Given I have 1 task
+  Then I should not be able to set the task type to nil
 
 Scenario: What should happen to a task if the user it belongs to is deleted?

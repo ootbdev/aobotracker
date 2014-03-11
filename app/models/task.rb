@@ -11,7 +11,7 @@ class Task < ActiveRecord::Base
   validate :end_time_greater_than_start_time
   validate :user_is_not_administrator
   validate :task_does_not_overlap_in_time
-
+  
   def end_time_greater_than_start_time
     unless start_time.nil? || end_time.nil?
       if end_time <= start_time
@@ -44,8 +44,7 @@ class Task < ActiveRecord::Base
   def task_does_not_overlap_in_time
     if user
       user.tasks.each do |task|
-        if ((start_time <= task.start_time && end_time > task.start_time) ||
-            (start_time >= task.start_time && start_time < task.end_time))
+        if ( self != task && ((self.start_time <= task.start_time && self.end_time > task.start_time) || (self.start_time >= task.start_time && self.start_time < task.end_time)))
           errors['task'] = "cannot overlap with time of previous tasks"
         end
       end

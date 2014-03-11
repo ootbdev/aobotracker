@@ -17,8 +17,8 @@ FactoryGirl.define do
       non_admins.first ? non_admins.first.id : FactoryGirl.create(:user, :employee).id
     end
     description            { Faker::Lorem.sentence }
-    sequence(:start_time)  { |n| Time.now + n.days }
-    end_time               { start_time + 1.hour }
+    sequence(:start_time)  { |n| Time.now + n.seconds }
+    end_time               { start_time + 1.second }
     after(:create) do |task|
       task.user.tasks.append(task)
     end
