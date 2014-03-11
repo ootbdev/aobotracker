@@ -8,6 +8,7 @@ FactoryGirl.define do
       TaskType.first ? TaskType.first.id : FactoryGirl.create(:task_type).id
     end
     user_id do
+
       # If not specified by caller of this factory,
       # then set to the id of the first non-administrator User,
       # if one exists.  If one does not exist, then
@@ -16,7 +17,10 @@ FactoryGirl.define do
       non_admins.first ? non_admins.first.id : FactoryGirl.create(:user, :employee).id
     end
     description            { Faker::Lorem.sentence }
-    sequence(:start_time)  { |n| DateTime.now + n.days }
+    sequence(:start_time)  { |n| Time.now + n.days }
     end_time               { start_time + 1.hour }
+    after(:create) do |task|
+      task.user.tasks.append(task)
+    end
   end
 end

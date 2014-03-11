@@ -1,5 +1,5 @@
 class Task < ActiveRecord::Base
-  has_one :task_type
+  belongs_to :task_type
   belongs_to :user
 
 #  validates :user_id, :presence => true
