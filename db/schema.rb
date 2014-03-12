@@ -11,13 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140306030211) do
+ActiveRecord::Schema.define(version: 20140311072631) do
 
   create_table "expense_types", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "expenses", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "expense_type_id"
+    t.string   "description"
+    t.date     "date"
+    t.decimal  "amount",          precision: 8, scale: 2
+    t.string   "currency"
+    t.boolean  "is_reimbursed"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "expenses", ["expense_type_id"], name: "index_expenses_on_expense_type_id"
+  add_index "expenses", ["user_id"], name: "index_expenses_on_user_id"
 
   create_table "task_types", force: true do |t|
     t.string   "name"

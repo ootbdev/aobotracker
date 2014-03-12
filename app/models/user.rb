@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-  has_many :tasks
+  has_many :tasks, dependent: :destroy
+  has_many :expenses
 
   validates :firstname, :presence => true
   validates :lastname, :presence => true
@@ -19,8 +20,6 @@ class User < ActiveRecord::Base
        errors['user type'] = "cannot be administrator if one already exists"
     end
   end
-
-
 end
 
 

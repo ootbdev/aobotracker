@@ -4,49 +4,89 @@ Feature: Task
 In order to track tasks assigned to employees and managers
 I want to manage tasks
 
-Scenario Outline: A task consists of a task type, a description, a start date/time and end date/time and should have 1 assigned user
-  Given I have 0 tasks and a user with email address "superman@northpole.com" and a task type "Administration"
-  Then I <should or should not> be able to create 1 task with task type <task-type>, description <description>, start time <start-time>, end time <end-time> assigned to <user-email>
+Background:
+  Given I have 2 employees
+  And I have 1 administrator
+  And I have 1 task type
+  And I have 0 tasks
+
+Scenario: A task belongs to a user
+  When employee 1 creates a task
+  And employee 2 creates a task
+  And employee 2 creates a task
+  Then task 1 should belong to employee 1
+  And task 2 should belong to employee 2
+  And task 3 should belong to employee 2
+
+Scenario: A task must belong to a user
+  When I try to create a task that doesn't belong to any user
+  Then I should still have 0 tasks
+
+Scenario Outline: All of the fields for a task must be non-empty
+  When employee 1 tries to create a task with no <field>
+  Then I should still have 0 tasks
 
   Examples:
-  | task-type        | description             | start-time         | end-time            | user-email               | should or should not |
-  | "Administration" | "Bossing people around" | "2014-03-04 07:43" | "2014-03-04  09:00" | "superman@northpole.com" | should               |
-#  | ""               | "Bossing people around" | "2014-03-04 07:43" | "2014-03-04  09:00" | "superman@northpole.com" | should not           |
-#  | "Administration" | ""                      | "2014-03-04 07:43" | "2014-03-04  09:00" | "superman@northpole.com" | should not           |
-#  | "Administration" | "Bossing people around" | ""                 | "2014-03-04  09:00" | "superman@northpole.com" | should not           |
-#  | "Administration" | "Bossing people around" | "2014-03-04 07:43" | ""                  | "superman@northpole.com" | should not           |
-#  | "Administration" | "Bossing people around" | "2014-03-04 07:43" | "2014-03-04  09:00" | ""                       | should not           |
- 
+    | field           |
+    | task type       |
+    | description     |
+    | start date/time |
+    | end date/time   |
+
 Scenario: A task can not be assigned to an administrator
-  Given I have 0 tasks and an administrator user with email address "superman@northpole.com" 
-  Then I should not be able to create a task with the user "superman@northpole.com" 
+  When administrator 1 tries to create a task
+  Then I should still have 0 tasks
 
 Scenario: A user can have many tasks which have identical task types and decriptions.
-  Given I have a user
-  Then I should be able to create 2 tasks with identical task types "Development" and descriptions "Not really working"
+  Given employee 1 has a task with description "development"
+  When employee 1 tries to create a task with description "development"
+  Then employee 1 should have 2 tasks
 
 Scenario Outline: A user is not allowed to have 2 tasks that overlap in time
-  Given I have a user with a task where the task type is "Development", the description is "Actually having lunch", the start time is "2014-03-06 12:43" and the end time is "2014-03-06 13:55"
-  Then I <should or should not> be able to create a task with start time <start_time> and end time <end_time>
+  Given employee 1 has a task that starts at "2014-03-06 12:00" and ends at "2014-03-06 13:00"
+  When employee 1 tries to create a task that starts at "<start_time>" and ends at "<end_time>"
+  Then employee 1 should have <count> tasks
 
   Examples:
-  | should or should not | start_time         | end_time           |
-  | should               | "2014-03-06 15:33" | "2014-03-07 00:22" |
-  | should               | "2014-03-05 12:22" | "2014-03-06 00:00" |
-  | should not           | "2014-03-06 00:00" | "2014-03-06 13:00" |
-  | should not           | "2014-03-06 13:00" | "2014-03-07 01:00" |
-  | should not           | "2014-03-06 13:00" | "2014-03-06 13:20" |
+  | start_time       | end_time         | count |
+  | 2014-03-06 11:00 | 2014-03-06 11:59 | 2     |
+  | 2014-03-06 11:00 | 2014-03-06 12:00 | 2     |
+  | 2014-03-06 11:00 | 2014-03-06 12:30 | 1     |
+  | 2014-03-06 11:00 | 2014-03-06 13:00 | 1     |
+  | 2014-03-06 11:00 | 2014-03-06 14:00 | 1     |
+  | 2014-03-06 12:00 | 2014-03-06 12:30 | 1     |
+  | 2014-03-06 12:00 | 2014-03-06 13:00 | 1     |
+  | 2014-03-06 12:00 | 2014-03-06 14:00 | 1     |
+  | 2014-03-06 12:30 | 2014-03-06 12:45 | 1     |
+  | 2014-03-06 12:30 | 2014-03-06 13:00 | 1     |
+  | 2014-03-06 12:30 | 2014-03-06 14:00 | 1     |
+  | 2014-03-06 12:59 | 2014-03-06 14:00 | 1     |
+  | 2014-03-06 13:00 | 2014-03-06 14:00 | 2     |
+  | 2014-03-06 13:01 | 2014-03-06 14:00 | 2     |
 
-Scenario: A tasks end time has to be greater than it's start time
-  Given I have a user
-  Then I should not be able to create a task with end time less or equal to start time
+Scenario Outline: A tasks end time has to be greater than it's start time
+  When employee 1 tries to create a task that starts at "<start_time>" and ends at "<end_time>"
+  Then employee 1 should have <count> tasks
 
-  
+  Examples:
+  | start_time       | end_time         | count |
+  | 2014-03-06 11:00 | 2014-03-06 11:00 | 0     |
+  | 2014-03-06 11:00 | 2014-03-06 11:01 | 1     |
+  | 2014-03-06 11:01 | 2014-03-06 11:00 | 0     |
+  | 2014-03-05 11:00 | 2014-03-06 11:00 | 1     |
+  | 2014-03-06 11:00 | 2014-03-05 11:00 | 0     |
 
+Scenario: A task type of a task should not be able to be destroyed
+  Given I have 1 task
+  When I try to destroy the task type
+  Then that task type should still exist
 
+Scenario: A task type of a task should not be able to be set to nil
+  Given I have 1 task
+  Then I should not be able to set the task type to nil
 
+Scenario: A user that is deleted should delete all associated tasks.
+  Given employee 1 has 5 tasks
+  When I delete employee 1
+  Then I should have no tasks
 
-
-
-
- 
