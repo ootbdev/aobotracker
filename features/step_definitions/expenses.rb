@@ -38,7 +38,7 @@ end
 When(/^(#{USER}) tries to create an expense with no (.*)$/) do |user, field|
   # Since the :expense factory tries to be helpful by creating a expense type if one
   # doesn't exist, we won't use the factory in the case of no expense type.
-  if field == 'expense type'
+  if field == 'ExpenseType'
     begin
       Expense.create(:description => Faker::Lorem.sentence,
                      :user_id => user.id,

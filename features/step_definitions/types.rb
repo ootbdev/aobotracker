@@ -1,4 +1,9 @@
-Given(/^I (?:should )?have (\d+) ([^ ]+)$/) do |count, class_name|
+Given(/^I have (\d+) ([^ ]+ypes?)$/) do |count, class_name|
+  Object.const_get(class_name.singularize).destroy_all
+  count.to_i.times { FactoryGirl.create(class_name_to_sym(class_name)) }
+end
+
+Then(/^I should have (\d+) ([^ ]+ypes?)$/) do |count, class_name|
   Object.const_get(class_name.singularize).count.should == count.to_i
 end
 

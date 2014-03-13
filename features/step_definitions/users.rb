@@ -1,5 +1,13 @@
-Given(/^I have no users$/) do
-  User.count.should == 0
+Given(/^I have (#{NUMBER}) (user|employee|manager|administrator)s?$/) do |count, user_type|
+  if user_type == 'user'
+    User.destroy_all
+    # The default for :user factory is to set user type to employee
+    # so, for now, this is the same as "Given I have X employees"
+    count.times { FactoryGirl.create(:user) }
+  else
+    User.where(:u_type => user_type).destroy_all
+    count.times { FactoryGirl.create(:user, user_type.to_sym) }
+  end
 end
 
 Given(/^I have one user of type (.*)$/) do |u_type|

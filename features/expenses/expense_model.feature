@@ -8,7 +8,7 @@ Background:
   Given I have 2 employees
   And I have 1 manager
   And I have 1 administrator
-  And I have 1 expense type
+  And I have 1 ExpenseType
   And I have 0 expenses
 
 Scenario: An expense belongs to a user
@@ -29,7 +29,7 @@ Scenario Outline: All of the fields (except for reimbursed) for an expense must 
 
   Examples:
     | field         |
-    | expense type  |
+    | ExpenseType   |
     | description   |
     | date          |
     | amount        |
@@ -56,8 +56,8 @@ Scenario Outline: An expense's currency can only be USD or CNY
 
 @wip
 Scenario: An expense type cannot be deleted if there are expenses in the system associated with that type
-  Given employee 1 has created an expense with expense type "equipment" 
-  Then manager 1 should not be able to delete the expense type "equipment"
+  Given employee 1 has created an expense with ExpenseType "equipment" 
+  Then manager 1 should not be able to delete the ExpenseType "equipment"
 
 @wip
 Scenario: All of the expenses associated with a user are deleted if that user is deleted
@@ -74,42 +74,42 @@ Scenario: An employee cannot mark an expense as reimbursed or not reimbursed, bu
   And manager 1 should be able to set expense 1 to be reimbursed
 
 Scenario Outline: An employee can change the attributes of his own expenses (except for reimbursed)
-  Given I have an expense type "recreation"
+  Given I have an ExpenseType "recreation"
   And employee 1 has 1 expense
   When employee 1 sets the <field> of expense 1 to "<value>"
   Then the <field> of expense 1 should be "<value>"
 
   Examples:
   | field        | value            |
-  | expense type | recreation       |
+  | ExpenseType  | recreation       |
   | description  | watching a movie |
   | date         | 1980-04-30       |
   | amount       | 1.50             |
   | currency     | USD              |
 
 Scenario Outline:
-  Given I have an expense type "recreation"
+  Given I have an ExpenseType "recreation"
   And employee 1 has 1 expense
   When employee 2 sets the <field> of expense 1 to "<value>"
   Then the <field> of expense 1 should not be "<value>"
 
   Examples:
   | field        | value            |
-  | expense type | recreation       |
+  | ExpenseType  | recreation       |
   | description  | watching a movie |
   | date         | 1980-04-30       |
   | amount       | 1.50             |
   | currency     | USD              |
 
 Scenario Outline: A manager can change the attributes of other's epxenses
-  Given I have an expense type "recreation"
+  Given I have an ExpenseType "recreation"
   And employee 1 has 1 expense
   When manager 1 sets the <field> of expense 1 to "<value>"
   Then the <field> of expense 1 should be "<value>"
 
   Examples:
   | field        | value            |
-  | expense type | recreation       |
+  | ExpenseType  | recreation       |
   | description  | watching a movie |
   | date         | 1980-04-30       |
   | amount       | 1.50             |
