@@ -19,8 +19,5 @@ FactoryGirl.define do
     description            { Faker::Lorem.sentence }
     sequence(:start_time)  { |n| Time.now + n.seconds }
     end_time               { start_time + 1.second }
-    after(:create) do |task|
-      task.user.tasks.append(task)
-    end
   end
 end

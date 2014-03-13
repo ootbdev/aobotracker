@@ -7,7 +7,7 @@ I want to manage tasks
 Background:
   Given I have 2 employees
   And I have 1 administrator
-  And I have 1 task type
+  And I have 1 TaskType
   And I have 0 tasks
 
 Scenario: A task belongs to a user

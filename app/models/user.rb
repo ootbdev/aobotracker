@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
-  has_secure_password
   has_many :tasks, dependent: :destroy
+  has_many :expenses, dependent: :destroy
 
   validates :firstname, :presence => true
   validates :lastname, :presence => true
@@ -11,8 +11,19 @@ class User < ActiveRecord::Base
 
   validate :only_one_administrator
 
-#  validate :administrator_has_no_tasks
+  def delete_expense_type(et)
+    (has_privilege?(:delete_expense_type) && 
+     et.expenses.count == 0) ? et.destroy : false
+  end
 
+  def set_expense_status(expense, status)
+    has_privilege?(:set_expense_status) ? expense.update(:status => status) : false
+  end
+
+  def modify_expense(expense, params)
+    (has_privilege?(:modify_expense) ||
+     self == expense.user) ? expense.update(params) : false
+  end
 
   def only_one_administrator
   u = User.find_by_u_type('administrator')
@@ -21,7 +32,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  private
 
+  def has_privilege?(privilege)
+    Aobotracker::Application.config.privileges[privilege].include?(u_type)
+  end
 end
 
 

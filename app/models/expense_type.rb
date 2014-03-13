@@ -1,4 +1,5 @@
 class ExpenseType < ActiveRecord::Base
+  has_many :expenses
   validates :name, :uniqueness => true,
                    :presence => true,
                    :length => { :maximum => 30 }
