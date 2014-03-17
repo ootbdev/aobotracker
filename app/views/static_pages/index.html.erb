@@ -1,0 +1,8 @@
+Please login
+
+<% @users.each do | user | %>
+  <%= form_for user, url: create_session_path, html: {:method => :post} do | f |%>
+  <%= hidden_field_tag(:user_id, user.id) %>
+  <div><%= f.submit "#{user.firstname} #{user.lastname} #{user.u_type}" %></div>
+  <% end %>
+<% end %>
