@@ -1,4 +1,11 @@
 Aobotracker::Application.routes.draw do
+
+  root :to => "static_pages#index"
+  post "sessions", :to => "sessions#create", :as => "create_session"
+  get  "home",     :to => "static_pages#home", :as => "home"
+  get  "/",        :to => "static_pages#index", :as => "login"
+  delete "sessions", :to => "sessions#destroy", :as => "logout"
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

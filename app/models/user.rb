@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
   private
 
   def has_privilege?(privilege)
-    Aobotracker::Application.config.privileges[privilege].include?(u_type)
+    Rails.application.config.privileges[privilege].include?(u_type)
   end
 end
 

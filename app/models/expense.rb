@@ -8,10 +8,10 @@ class Expense < ActiveRecord::Base
   validates :date, :presence => true
   validates :amount, :presence => true
   validates :status, :presence => true,
-                     :inclusion => { :in => Aobotracker::Application.config.expense_statuses }
+                     :inclusion => { :in => Rails.application.config.expense_statuses }
 
   validates :currency, :presence => true,
-                       :inclusion => { :in => Aobotracker::Application.config.expense_currencies }
+                       :inclusion => { :in => Rails.application.config.expense_currencies }
 
   validate :user_is_not_administrator
 

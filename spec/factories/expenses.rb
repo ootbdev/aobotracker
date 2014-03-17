@@ -18,7 +18,7 @@ FactoryGirl.define do
     description          { Faker::Lorem.sentence   }
     sequence(:date)      { |n| Date.today + n.days }
     amount               { Faker::Number.number(2) }
-    currency             Aobotracker::Application.config.expense_currencies[0]
-    status               Aobotracker::Application.config.expense_statuses[0]
+    currency             Rails.application.config.expense_currencies[0]
+    status               Rails.application.config.expense_statuses[0]
   end
 end

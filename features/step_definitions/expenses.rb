@@ -57,7 +57,7 @@ When(/^I try to create an expense that doesn't belong to any user$/) do
                   :date => Date.today,
                   :amount => Faker::Number.number(2),
                   :currency => 'USD',
-                  :status => Aobotracker::Application.config.expense_statuses[0],
+                  :status => Rails.application.config.expense_statuses[0],
                   :user_id => nil)
   e.save if e.valid?
 end
@@ -71,7 +71,7 @@ When(/^(#{USER}) tries to create an expense with no (.*)$/) do |user, field|
                     :date => Date.today,
                     :amount => Faker::Number.number(2),
                     :currency => 'USD',
-                    :status => Aobotracker::Application.config.expense_statuses[0],
+                    :status => Rails.application.config.expense_statuses[0],
                     :expense_type_id => nil)
   else
     e = FactoryGirl.build(:expense, :user_id => user.id)
